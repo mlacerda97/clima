@@ -1,19 +1,19 @@
 document.querySelector('.busca').addEventListener('submit', async (event) => { 
-    event.preventDefault(); // Bloquear atualização de formulario quando busca
+    event.preventDefault(); 
 
-    let input = document.querySelector('#searchInput').value //Se tem acesso ao que usuario digitou
+    let input = document.querySelector('#searchInput').value
 
     if(input !== '') {
         clearInfo(); // Limpar a tela
-        showWarning('Carregando...') // Mensagem de espera
+        showWarning('Carregando...') 
 
-        let url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURI(input)}&appid=aea22899a333c0cadf5a0d566c05161d&units=metric&lang=pt_br` // API do tempo
+        let url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURI(input)}&appid=aea22899a333c0cadf5a0d566c05161d&units=metric&lang=pt_br`
 
-        let results = await fetch(url); // Armazenou o resultado em results
-        let json = await results.json(); // Transformar o resultado em JSON
+        let results = await fetch(url);
+        let json = await results.json();
 
-        if(json.cod === 200) { // COD 200 - city FOUND
-            showInfo({ // INFORMAÇÕES ABAIXO ESTÃO DENTRO DO ARRAY CRIADO
+        if(json.cod === 200) { 
+            showInfo({ 
                 name: json.name,
                 country: json.sys.country,
                 temp: json.main.temp,
@@ -22,13 +22,13 @@ document.querySelector('.busca').addEventListener('submit', async (event) => {
                 windAngle: json.wind.deg
             });
         } else {
-            clearInfo(); //Limpar a tela
-            showWarning("Não encontramos esta localização."); // COD 404 - city not found
+            clearInfo();
+            showWarning("Não encontramos esta localização."); 
         }
     }
 });
 
-function showInfo(json) { // Exibir as informações
+function showInfo(json) { 
     showWarning('');
     
     document.querySelector('.titulo').innerHTML = `${json.name}, ${json.country}`;
@@ -40,11 +40,11 @@ function showInfo(json) { // Exibir as informações
     document.querySelector('.resultado').style.display = 'block';
 }
 
-function showWarning(msg) { // Mensagem de espera
+function showWarning(msg) { 
     document.querySelector('.aviso').innerHTML = msg
 }
 
-function clearInfo() { // Limpar a tela quando não achar nada
+function clearInfo() {
     showWarning('');
     document.querySelector('.resultado').style.display = 'none';
 }
